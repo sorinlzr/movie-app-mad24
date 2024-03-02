@@ -3,7 +3,7 @@ package com.example.movieappmad24
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +37,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,12 +57,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Card {
-                        Image(
-                            painter = painterResource(id = R.drawable.movie_image),
-                            contentDescription = "placeholder_image"
-                        )
-                    }
+                    MovieList()
                 }
             }
         }
@@ -147,7 +141,7 @@ fun MovieText(movie: Movie) {
             contentDescription = "arrow_up_icon"
         )
     }
-    if (showMovieDetails) {
+    AnimatedVisibility(visible = showMovieDetails){
         MovieDetails(movie)
     }
 }
