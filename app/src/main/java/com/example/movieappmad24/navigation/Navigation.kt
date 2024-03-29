@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.movieappmad24.models.getMovies
 import com.example.movieappmad24.screens.DetailScreen
 import com.example.movieappmad24.screens.HomeScreen
 import com.example.movieappmad24.screens.Screen
@@ -27,8 +28,10 @@ fun Navigation(modifier: Modifier) {
             arguments = listOf(navArgument(name = "movieId") { type = NavType.StringType })
         )
         { backStackEntry ->
+            val movieId = backStackEntry.arguments?.getString("movieId");
+            val movie = getMovies().find { it.id == movieId } !!
             DetailScreen(
-                movieId = backStackEntry.arguments?.getString("movieId"),
+                movie = movie,
                 navController = navController)
         }
     }
