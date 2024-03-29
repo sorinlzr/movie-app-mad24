@@ -35,7 +35,7 @@ fun MovieList(movies: List<Movie> = getMovies(), navController: NavController) {
         ) {
             items(movies) { movie ->
                 MovieRow(movie) { movieId ->
-                    navController.navigate(route = "detail/$movieId")
+                    navController.navigate(Screen.Detail.route + "/${movieId}")
                 }
             }
         }

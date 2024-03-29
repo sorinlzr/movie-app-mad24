@@ -36,9 +36,7 @@ fun DetailScreen(movie: Movie, navController: NavController) {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            MovieRow(movie) { movieId ->
-                navController.navigate(route = "detail/$movieId")
-            }
+            MovieRow(movie) { }
             LazyRow(Modifier.padding(5.dp)) {
                 items(movie.images) { imageUrl ->
                     Card(modifier = Modifier
