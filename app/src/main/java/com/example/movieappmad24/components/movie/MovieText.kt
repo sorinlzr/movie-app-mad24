@@ -44,7 +44,7 @@ fun MovieText(movie: Movie) {
                 .align(Alignment.CenterVertically)
         )
         Icon(
-            imageVector = if (showMovieDetails) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
+            imageVector = if (showMovieDetails) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
             contentDescription = "arrow_up_icon"
         )
     }
