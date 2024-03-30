@@ -41,7 +41,7 @@ fun TopAppBar(
                     .clickable { onBackIconClick() }
             )
         } else {
-            Spacer(modifier = Modifier.padding(14.dp))
+            Spacer(modifier = Modifier.padding(30.dp, 14.dp))
         }
 
         Text(
@@ -52,6 +52,6 @@ fun TopAppBar(
             modifier = Modifier
                 .padding(14.dp)
         )
-        Spacer(modifier = Modifier.padding(14.dp))
+        Spacer(modifier = Modifier.padding(30.dp, 14.dp))
     }
 }

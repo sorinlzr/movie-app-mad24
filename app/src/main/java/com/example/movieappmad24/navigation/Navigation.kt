@@ -11,6 +11,8 @@ import com.example.movieappmad24.models.getMovies
 import com.example.movieappmad24.screens.DetailScreen
 import com.example.movieappmad24.screens.HomeScreen
 import com.example.movieappmad24.screens.Screen
+import com.example.movieappmad24.screens.WatchlistScreen
+import com.example.movieappmad24.utils.MovieService
 
 @Composable
 fun Navigation(modifier: Modifier) {
@@ -20,19 +22,28 @@ fun Navigation(modifier: Modifier) {
         navController = navController,
         startDestination = Screen.Home.route
     ) {
-        composable(route = Screen.Home.route) {
+        composable(
+            route = Screen.Home.route
+        ) {
             HomeScreen(navController = navController)
         }
         composable(
             route = Screen.Detail.route + "/{movieId}",
             arguments = listOf(navArgument(name = "movieId") { type = NavType.StringType })
-        )
-        { backStackEntry ->
+        ) { backStackEntry ->
             val movieId = backStackEntry.arguments?.getString("movieId");
-            val movie = getMovies().find { it.id == movieId } !!
+            val movie = getMovies().find { it.id == movieId }!!
             DetailScreen(
                 movie = movie,
-                navController = navController)
+                navController = navController
+            )
+        }
+        composable(
+            route = Screen.Watchlist.route
+        ) {
+            val movieService = MovieService()
+            val watchlist = movieService.getWatchlist()
+            WatchlistScreen(watchlist, navController = navController)
         }
     }
 }

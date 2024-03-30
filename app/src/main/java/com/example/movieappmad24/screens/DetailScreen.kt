@@ -26,11 +26,14 @@ fun DetailScreen(movie: Movie, navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(name = movie.title,
-                    backIcon = true,
-                    onBackIconClick = { navController.popBackStack() })
-             },
+                backIcon = true,
+                onBackIconClick = { navController.popBackStack() })
+        },
         containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = { BottomNavigationBar() }) { innerPadding ->
+        bottomBar = {
+            BottomNavigationBar(navController)
+        }
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -39,7 +42,8 @@ fun DetailScreen(movie: Movie, navController: NavController) {
             MovieRow(movie) { }
             LazyRow(Modifier.padding(5.dp)) {
                 items(movie.images) { imageUrl ->
-                    Card(modifier = Modifier
+                    Card(
+                        modifier = Modifier
                             .padding(5.dp, 5.dp, 10.dp, 5.dp)
                             .height(300.dp)
                             .width(300.dp)
