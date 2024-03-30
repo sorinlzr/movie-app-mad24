@@ -1,4 +1,4 @@
-package com.example.movieappmad24.components
+package com.example.movieappmad24.components.appBar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun TopAppBar(
+fun SimpleTopAppBar(
     name: String,
     backIcon: Boolean = false,
     onBackIconClick: () -> Unit = {}

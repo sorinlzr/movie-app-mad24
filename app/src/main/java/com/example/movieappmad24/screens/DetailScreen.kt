@@ -16,22 +16,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.movieappmad24.components.BottomNavigationBar
-import com.example.movieappmad24.components.TopAppBar
+import com.example.movieappmad24.components.appBar.SimpleBottomAppBar
+import com.example.movieappmad24.components.appBar.SimpleTopAppBar
 import com.example.movieappmad24.components.movie.MovieRow
 import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.utils.MovieService
 
 @Composable
 fun DetailScreen(movie: Movie, navController: NavController) {
     Scaffold(
         topBar = {
-            TopAppBar(name = movie.title,
+            SimpleTopAppBar(name = movie.title,
                 backIcon = true,
                 onBackIconClick = { navController.popBackStack() })
         },
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
-            BottomNavigationBar(navController)
+            SimpleBottomAppBar(navController)
         }
     ) { innerPadding ->
         Column(
@@ -39,7 +40,8 @@ fun DetailScreen(movie: Movie, navController: NavController) {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            MovieRow(movie) { }
+            val isFavorite = MovieService().isFavorite(movie.id)
+            MovieRow(movie, isFavorite) { }
             LazyRow(Modifier.padding(5.dp)) {
                 items(movie.images) { imageUrl ->
                     Card(

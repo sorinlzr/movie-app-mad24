@@ -9,8 +9,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.example.movieappmad24.components.BottomNavigationBar
-import com.example.movieappmad24.components.TopAppBar
+import com.example.movieappmad24.components.appBar.SimpleBottomAppBar
+import com.example.movieappmad24.components.appBar.SimpleTopAppBar
 import com.example.movieappmad24.components.movie.MovieRow
 import com.example.movieappmad24.models.Movie
 
@@ -18,13 +18,13 @@ import com.example.movieappmad24.models.Movie
 fun WatchlistScreen(movies: List<Movie>, navController: NavController) {
     Scaffold(
         topBar = {
-            TopAppBar(name = "Watchlist",
+            SimpleTopAppBar(name = "My Watchlist",
                 backIcon = true,
                 onBackIconClick = { navController.popBackStack() })
         },
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
-            BottomNavigationBar(navController)
+            SimpleBottomAppBar(navController)
         }
     ) { innerPadding ->
         LazyColumn(
@@ -33,7 +33,7 @@ fun WatchlistScreen(movies: List<Movie>, navController: NavController) {
                 .padding(innerPadding)
         ) {
             items(movies) { movie ->
-                MovieRow(movie) { movieId ->
+                MovieRow(movie, true) { movieId ->
                     navController.navigate(Screen.Detail.route + "/${movieId}")
                 }
             }

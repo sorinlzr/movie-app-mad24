@@ -1,4 +1,4 @@
-package com.example.movieappmad24.components
+package com.example.movieappmad24.components.appBar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -14,7 +14,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.movieappmad24.screens.Screen
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
+fun SimpleBottomAppBar(navController: NavController) {
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
     BottomAppBar {

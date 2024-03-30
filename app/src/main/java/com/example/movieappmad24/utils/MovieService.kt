@@ -18,4 +18,8 @@ class MovieService(private val allMovies: List<Movie> = getMovies()) {
         val shuffledMovies = allMovies.shuffled(Random(42))
         return shuffledMovies.take(3)
     }
+
+    fun isFavorite(movieId: String): Boolean {
+        return getWatchlist().any { it.id == movieId }
+    }
 }

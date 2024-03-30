@@ -11,26 +11,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.movieappmad24.R
-import com.example.movieappmad24.components.BottomNavigationBar
-import com.example.movieappmad24.components.TopAppBar
+import com.example.movieappmad24.components.appBar.SimpleBottomAppBar
+import com.example.movieappmad24.components.appBar.SimpleTopAppBar
 import com.example.movieappmad24.components.movie.MovieRow
-import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.getMovies
+import com.example.movieappmad24.utils.MovieService
 
 @Composable
 fun HomeScreen(navController: NavController) {
-    MovieList(navController = navController)
-}
-
-@Composable
-fun MovieList(movies: List<Movie> = getMovies(), navController: NavController) {
     Scaffold(
         topBar = {
-            TopAppBar(name = stringResource(id = R.string.app_name))
+            SimpleTopAppBar(name = stringResource(id = R.string.app_name))
         },
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
-            BottomNavigationBar(navController)
+            SimpleBottomAppBar(navController)
         }
     ) { innerPadding ->
         LazyColumn(
@@ -38,8 +33,9 @@ fun MovieList(movies: List<Movie> = getMovies(), navController: NavController) {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            items(movies) { movie ->
-                MovieRow(movie) { movieId ->
+            items(getMovies()) { movie ->
+                val isFavorite = MovieService().isFavorite(movie.id)
+                MovieRow(movie, isFavorite) { movieId ->
                     navController.navigate(Screen.Detail.route + "/${movieId}")
                 }
             }

@@ -14,6 +14,7 @@ import com.example.movieappmad24.models.Movie
 @Composable
 fun MovieRow(
     movie: Movie,
+    isFavorite: Boolean = false,
     onItemClick: (String) -> Unit = {},
 ) {
     Column(
@@ -26,7 +27,7 @@ fun MovieRow(
                 onItemClick(movie.id)
             }
         ) {
-            MovieGraphics(movie)
+            MovieGraphics(movie, isFavorite)
             MovieText(movie)
         }
     }

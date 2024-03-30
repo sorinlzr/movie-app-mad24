@@ -3,6 +3,7 @@ package com.example.movieappmad24.components.movie
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -14,14 +15,14 @@ import coil.compose.AsyncImage
 import com.example.movieappmad24.models.Movie
 
 @Composable
-fun MovieGraphics(movie: Movie) {
+fun MovieGraphics(movie: Movie, isFavorite: Boolean = false) {
     Box {
         AsyncImage(
             model = movie.images[0],
             contentDescription = "placeholder_image"
         )
         Icon(
-            imageVector = Icons.Default.FavoriteBorder,
+            imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
             tint = Color.White,
             contentDescription = "favorite_icon",
             modifier = Modifier
