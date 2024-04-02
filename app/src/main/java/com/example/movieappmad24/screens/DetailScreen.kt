@@ -20,10 +20,14 @@ import com.example.movieappmad24.components.appBar.SimpleBottomAppBar
 import com.example.movieappmad24.components.appBar.SimpleTopAppBar
 import com.example.movieappmad24.components.movie.MovieRow
 import com.example.movieappmad24.models.Movie
-import com.example.movieappmad24.utils.MovieService
+import com.example.movieappmad24.models.MovieViewModel
 
 @Composable
-fun DetailScreen(movie: Movie, navController: NavController) {
+fun DetailScreen(
+    movie: Movie,
+    navController: NavController,
+    moviesViewModel: MovieViewModel
+) {
     Scaffold(
         topBar = {
             SimpleTopAppBar(name = movie.title,
@@ -40,8 +44,15 @@ fun DetailScreen(movie: Movie, navController: NavController) {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            val isFavorite = MovieService().isFavorite(movie.id)
-            MovieRow(movie, isFavorite) { }
+            MovieRow(
+                movie,
+                onItemClick = {
+                        movieId -> navController.navigate(Screen.Detail.route + "/${movieId}")
+                },
+                onFavoriteIconClick = {
+                        movieId -> moviesViewModel.toggleFavorite(movieId)
+                }
+            )
             LazyRow(Modifier.padding(5.dp)) {
                 items(movie.images) { imageUrl ->
                     Card(

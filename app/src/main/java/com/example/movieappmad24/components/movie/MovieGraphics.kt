@@ -1,5 +1,6 @@
 package com.example.movieappmad24.components.movie
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -15,19 +16,23 @@ import coil.compose.AsyncImage
 import com.example.movieappmad24.models.Movie
 
 @Composable
-fun MovieGraphics(movie: Movie, isFavorite: Boolean = false) {
+fun MovieGraphics(
+    movie: Movie,
+    onFavoriteIconClick: (String) -> Unit = {}
+) {
     Box {
         AsyncImage(
             model = movie.images[0],
             contentDescription = "placeholder_image"
         )
         Icon(
-            imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+            imageVector = if (movie.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
             tint = Color.White,
             contentDescription = "favorite_icon",
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(all = 8.dp)
+                .clickable { onFavoriteIconClick(movie.id) }
         )
     }
 }

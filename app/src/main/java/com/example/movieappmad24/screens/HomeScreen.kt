@@ -14,11 +14,13 @@ import com.example.movieappmad24.R
 import com.example.movieappmad24.components.appBar.SimpleBottomAppBar
 import com.example.movieappmad24.components.appBar.SimpleTopAppBar
 import com.example.movieappmad24.components.movie.MovieRow
-import com.example.movieappmad24.models.getMovies
-import com.example.movieappmad24.utils.MovieService
+import com.example.movieappmad24.models.MovieViewModel
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(
+    navController: NavController,
+    moviesViewModel: MovieViewModel
+) {
     Scaffold(
         topBar = {
             SimpleTopAppBar(name = stringResource(id = R.string.app_name))
@@ -33,11 +35,16 @@ fun HomeScreen(navController: NavController) {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            items(getMovies()) { movie ->
-                val isFavorite = MovieService().isFavorite(movie.id)
-                MovieRow(movie, isFavorite) { movieId ->
-                    navController.navigate(Screen.Detail.route + "/${movieId}")
-                }
+            items(moviesViewModel.movieList) { movie ->
+                MovieRow(
+                    movie,
+                    onItemClick = {
+                        movieId -> navController.navigate(Screen.Detail.route + "/${movieId}")
+                    },
+                    onFavoriteIconClick = {
+                        movieId -> moviesViewModel.toggleFavorite(movieId)
+                    }
+                )
             }
         }
     }

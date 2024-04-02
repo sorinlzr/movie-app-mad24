@@ -7,16 +7,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.movieappmad24.models.MovieViewModel
 import com.example.movieappmad24.models.getMovies
 import com.example.movieappmad24.screens.DetailScreen
 import com.example.movieappmad24.screens.HomeScreen
 import com.example.movieappmad24.screens.Screen
 import com.example.movieappmad24.screens.WatchlistScreen
-import com.example.movieappmad24.utils.MovieService
 
 @Composable
-fun Navigation(modifier: Modifier) {
+fun Navigation() {
     val navController = rememberNavController()
+    val moviesViewModel = MovieViewModel()
 
     NavHost(
         navController = navController,
@@ -25,25 +26,28 @@ fun Navigation(modifier: Modifier) {
         composable(
             route = Screen.Home.route
         ) {
-            HomeScreen(navController = navController)
+            HomeScreen(navController = navController,
+                moviesViewModel = moviesViewModel)
         }
         composable(
             route = Screen.Detail.route + "/{movieId}",
             arguments = listOf(navArgument(name = "movieId") { type = NavType.StringType })
         ) { backStackEntry ->
             val movieId = backStackEntry.arguments?.getString("movieId");
-            val movie = getMovies().find { it.id == movieId }!!
+            val movie = moviesViewModel.movieList.find { it.id == movieId }!!
             DetailScreen(
                 movie = movie,
-                navController = navController
+                navController = navController,
+                moviesViewModel = moviesViewModel
             )
         }
         composable(
             route = Screen.Watchlist.route
         ) {
-            val movieService = MovieService()
-            val watchlist = movieService.getWatchlist()
-            WatchlistScreen(watchlist, navController = navController)
+            WatchlistScreen(
+                moviesViewModel.favoriteList,
+                navController = navController,
+                moviesViewModel = moviesViewModel)
         }
     }
 }

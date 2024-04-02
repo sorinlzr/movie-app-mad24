@@ -13,9 +13,14 @@ import com.example.movieappmad24.components.appBar.SimpleBottomAppBar
 import com.example.movieappmad24.components.appBar.SimpleTopAppBar
 import com.example.movieappmad24.components.movie.MovieRow
 import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MovieViewModel
 
 @Composable
-fun WatchlistScreen(movies: List<Movie>, navController: NavController) {
+fun WatchlistScreen(
+    movies: List<Movie>,
+    navController: NavController,
+    moviesViewModel: MovieViewModel
+) {
     Scaffold(
         topBar = {
             SimpleTopAppBar(name = "My Watchlist",
@@ -33,9 +38,14 @@ fun WatchlistScreen(movies: List<Movie>, navController: NavController) {
                 .padding(innerPadding)
         ) {
             items(movies) { movie ->
-                MovieRow(movie, true) { movieId ->
-                    navController.navigate(Screen.Detail.route + "/${movieId}")
-                }
+                MovieRow(movie,
+                    onItemClick = { movieId ->
+                        navController.navigate(Screen.Detail.route + "/${movieId}")
+                    },
+                    onFavoriteIconClick = { movieId ->
+                        moviesViewModel.toggleFavorite(movieId)
+                    }
+                )
             }
         }
     }
