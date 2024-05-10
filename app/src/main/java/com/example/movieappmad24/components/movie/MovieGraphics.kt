@@ -14,15 +14,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MovieImage
 
 @Composable
 fun MovieGraphics(
     movie: Movie,
-    onFavoriteIconClick: (String) -> Unit = {}
+    movieImages: List<MovieImage>,
+    onFavoriteIconClick: (String) -> Unit = {},
 ) {
     Box {
         AsyncImage(
-            model = movie.images[0],
+            model = movieImages[0].url,
             contentDescription = "placeholder_image"
         )
         Icon(

@@ -9,13 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
-import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MovieWithImages
 
 @Composable
 fun MovieRow(
-    movie: Movie,
+    movieWithImages: MovieWithImages,
     onItemClick: (String) -> Unit = {},
-    onFavoriteIconClick: (String) -> Unit = {}
+    onFavoriteIconClick: (String) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -24,14 +24,15 @@ fun MovieRow(
     ) {
         Card(
             modifier = Modifier.clickable {
-                onItemClick(movie.id)
+                onItemClick(movieWithImages.movie.id)
             }
         ) {
             MovieGraphics(
-                movie,
-                onFavoriteIconClick = { onFavoriteIconClick(movie.id) }
+                movieWithImages.movie,
+                movieWithImages.images,
+                onFavoriteIconClick = { onFavoriteIconClick(movieWithImages.movie.id) }
             )
-            MovieText(movie)
+            MovieText(movieWithImages.movie)
         }
     }
 }

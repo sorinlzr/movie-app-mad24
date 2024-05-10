@@ -7,20 +7,33 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.movieappmad24.components.appBar.SimpleBottomAppBar
 import com.example.movieappmad24.components.appBar.SimpleTopAppBar
 import com.example.movieappmad24.components.movie.MovieRow
-import com.example.movieappmad24.models.Movie
-import com.example.movieappmad24.models.MovieViewModel
+import com.example.movieappmad24.data.MovieDatabase
+import com.example.movieappmad24.data.MovieRepository
+import com.example.movieappmad24.viewmodels.FavoritesViewModel
+import com.example.movieappmad24.viewmodels.MoviesViewModelFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun WatchlistScreen(
-    movies: List<Movie>,
     navController: NavController,
-    moviesViewModel: MovieViewModel
 ) {
+    val db = MovieDatabase.getDatabase(LocalContext.current)
+    val repository = MovieRepository(movieDao = db.movieDao())
+    val factory = MoviesViewModelFactory(repository = repository)
+    val favoritesViewModel: FavoritesViewModel = viewModel(factory = factory)
+
+    val movies = favoritesViewModel.favoriteMovies.collectAsState().value
+
     Scaffold(
         topBar = {
             SimpleTopAppBar(name = "My Watchlist",
@@ -42,8 +55,10 @@ fun WatchlistScreen(
                     onItemClick = { movieId ->
                         navController.navigate(Screen.Detail.route + "/${movieId}")
                     },
-                    onFavoriteIconClick = { movieId ->
-                        moviesViewModel.toggleFavorite(movieId)
+                    onFavoriteIconClick = {
+                        favoritesViewModel.viewModelScope.launch(Dispatchers.IO) {
+                            favoritesViewModel.toggleFavorite(movie)
+                        }
                     }
                 )
             }
